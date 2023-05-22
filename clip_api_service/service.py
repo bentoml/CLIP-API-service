@@ -73,14 +73,15 @@ async def _encode(item: Item) -> npt.NDArray:
 )
 async def encode(items: ItemList) -> List[npt.NDArray[float]]:
     results = [_encode(item) for item in items]
-    return await asyncio.gather(*results)
+    results = await asyncio.gather(*results)
+    return results
 
 
 @svc.api(
     input=JSON.from_sample(RANKING_INPUT_SAMPLE, pydantic_model=RankInput),
     output=JSON(pydantic_model=RankOutput),
 )
-async def rank(rank_input: RankInput) -> Dict[str, npt.NDArray[float]]:
+async def rank(rank_input: RankInput) -> RankOutput:
     queries = [_encode(query) for query in rank_input.queries]
     candidates = [_encode(item) for item in rank_input.candidates]
 

@@ -103,6 +103,7 @@ MODELS = {
     # "EVA02-E-14-plus:laion2b_s9b_b144k",
 }
 
+
 def get_bento_model_tag(model_name: str) -> bentoml.Tag:
     model_version = model_name.replace(":", ".")
     return bentoml.Tag("openclip", model_version.lower())
@@ -110,11 +111,13 @@ def get_bento_model_tag(model_name: str) -> bentoml.Tag:
 
 def download_model(model_name: str) -> bentoml.Model:
     import open_clip
+
     bento_model_tag = get_bento_model_tag(model_name)
     _model_name, _pretrained = model_name.split(":")
 
-    model, _, processor = open_clip.create_model_and_transforms(_model_name,
-                                                                 pretrained=_pretrained)
+    model, _, processor = open_clip.create_model_and_transforms(
+        _model_name, pretrained=_pretrained
+    )
     tokenizer = open_clip.get_tokenizer(_model_name)
 
     bentoml.pytorch.save_model(
@@ -131,12 +134,6 @@ def download_model(model_name: str) -> bentoml.Model:
     return bentoml.models.get(bento_model_tag)
 
 
-
-@contextmanager
-def multi_context(*cms):
-    with ExitStack() as stack:
-        yield [stack.enter_context(cls()) for cls in cms]
-
 class OpenClipRunnable(CLIPRunnable):
     SUPPORTED_RESOURCES = ("nvidia.com/gpu", "cpu")
     SUPPORTS_CPU_MULTI_THREADING = True
@@ -148,28 +145,27 @@ class OpenClipRunnable(CLIPRunnable):
             self.device = "cuda"
             # by default, torch.FloatTensor will be used on CPU.
             torch.set_default_tensor_type("torch.cuda.FloatTensor")
-            self.inference_context = multi_context(torch.inference_mode, torch.cuda.amp.autocast)
         else:
             self.device = "cpu"
-            self.inference_context = multi_context(torch.inference_mode, torch.cpu.amp.autocast)
 
-        self.model = bento_model.load_model().to(self.device)
+        self.model = bento_model.load_model().to(self.device).eval()
         self.processor = bento_model.custom_objects["processor"]
         self.tokenizer = bento_model.custom_objects["tokenizer"]
 
     @bentoml.Runnable.method(batchable=True)
     def encode_text(self, texts: List[str]) -> npt.NDArray:
         texts_encodings = self.tokenizer(texts)
-        with self.inference_context():
+        with torch.inference_mode():
             text_embeddings = self.model.encode_text(texts_encodings)
             return text_embeddings.cpu().detach().numpy()
 
     @bentoml.Runnable.method(batchable=True)
     def encode_image(self, images: List[Image.Image]) -> npt.NDArray:
-        image_encodings = [self.processor(image) for image in images]
+        image_encodings = torch.stack([self.processor(image) for image in images])
         with torch.inference_mode():
             image_embeddings = self.model.encode_image(image_encodings)
             return image_embeddings.cpu().detach().numpy()
+
 
 def clip_runnable():
     return OpenClipRunnable

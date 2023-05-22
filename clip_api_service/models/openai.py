@@ -38,7 +38,7 @@ def download_model(model_name: str) -> bentoml.Model:
         },
         metadata={
             "logit_scale": model.logit_scale.item(),
-        }
+        },
     )
     return bentoml.models.get(bento_model_tag)
 
