@@ -1,3 +1,7 @@
 transformers
 bentoml
-torch
+accelerate
+optimum
+pydantic
+Pillow
+pytorch

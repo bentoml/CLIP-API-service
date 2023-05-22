@@ -1,59 +1,65 @@
 from __future__ import annotations
+
+import typing
 from typing import Optional, List, Dict
 
-import io
-import asyncio
-
-import bentoml
-import lancedb
-from lancedb import embeddings
-
 import numpy as np
-import pandas as pd
-import numpy.typing as npt
-from PIL import Image
-from pydantic import BaseModel
-from bentoml.io import JSON, PandasDataFrame, Image
+import asyncio
+import bentoml
+from bentoml.io import JSON
 
 from .runners import get_clip_runner
-from .utils import download_image_from_url, base64_to_image
+from .models import init_model
+from .samples import ENCODING_INPUT_SAMPLE, RANKING_INPUT_SAMPLE
+from .utils import (
+    download_image_from_url,
+    base64_to_image,
+    cosine_similarity,
+    BaseItem,
+    ListModel,
+    softmax,
+)
 
-DEFAULT_RETURN_LIMIST=9
+if typing.TYPE_CHECKING:
+    import numpy.typing as npt
 
-clip_runner = get_clip_runner()
 
+class Item(BaseItem):
+    text: Optional[str]  # text to encode
+    img_uri: Optional[str]  # url for downloading image
+    img_blob: Optional[str]  # base64 encoded image
+
+
+class ItemList(ListModel):
+    __root__: List[Item]
+
+
+class RankInput(BaseItem):
+    queries: List[Item]
+    candidates: List[Item]
+
+
+class RankOutput(BaseItem):
+    probabilities: List[List[float]]
+    cosine_similarities: List[List[float]]
+
+
+bento_model = init_model()
+logit_scale = np.exp(bento_model.info.metadata.get("logit_scale", 4.60517))
+
+clip_runner = get_clip_runner(bento_model)
 svc = bentoml.Service(
-    "image-search-service",
+    "clip-api-service",
     runners=[clip_runner],
 )
 
-SAMPLES = [
-    {"image_uri": "https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg"},
-    {"text": "picture of a dog"},
-    {"text": "picture of a cat"},
-]
-
-class Item(BaseModel):
-    text: Optional[str]
-    image_uri: Optional[str]
-    image_b64: Optional[str]
-
-class ItemList(BaseModel):
-    __root__: List[Item]
-
-    def __iter__(self):
-        return iter(self.__root__)
-
-    def __getitem__(self, item):
-        return self.__root__[item]
-
 
 async def _encode(item: Item) -> npt.NDArray:
-    if item.image_uri:
-        image = await download_image_from_url(item.image_uri)
+    if item.img_uri:
+        image = await download_image_from_url(item.img_uri)
         embedding = await clip_runner.encode_image.async_run([image])
-    elif item.image_b64:
-        image = base64_to_image(item.image_b64)
+    elif item.img_blob:
+        image = base64_to_image(item.img_blob)
         embedding = await clip_runner.encode_image.async_run([image])
     else:
         embedding = await clip_runner.encode_text.async_run([item.text])
@@ -61,11 +67,33 @@ async def _encode(item: Item) -> npt.NDArray:
     return embedding[0]
 
 
-@svc.api(input=JSON.from_sample(SAMPLES, pydantic_model=ItemList), output=JSON())
-async def encode(items: ItemList) -> List[npt.NDArray]:
+@svc.api(
+    input=JSON.from_sample(ENCODING_INPUT_SAMPLE, pydantic_model=ItemList),
+    output=JSON(),
+)
+async def encode(items: ItemList) -> List[npt.NDArray[float]]:
     results = [_encode(item) for item in items]
     return await asyncio.gather(*results)
 
-@svc.api(input=Image(), output=JSON())
-async def encode_image(image: Image.Image) -> npt.NDArray:
-    return (await clip_runner.encode_image.async_run([image]))[0]
+
+@svc.api(
+    input=JSON.from_sample(RANKING_INPUT_SAMPLE, pydantic_model=RankInput),
+    output=JSON(pydantic_model=RankOutput),
+)
+async def rank(rank_input: RankInput) -> Dict[str, npt.NDArray[float]]:
+    queries = [_encode(query) for query in rank_input.queries]
+    candidates = [_encode(item) for item in rank_input.candidates]
+
+    # Encode embeddings
+    query_embeds = np.array(await asyncio.gather(*queries))
+    candidate_embeds = np.array(await asyncio.gather(*candidates))
+
+    # Compute cosine similarities
+    cosine_similarities = cosine_similarity(query_embeds, candidate_embeds)
+
+    # Compute softmax scores
+    prob_scores = softmax(logit_scale * cosine_similarities)
+    return RankOutput(
+        probabilities=prob_scores.tolist(),
+        cosine_similarities=cosine_similarities.tolist(),
+    )

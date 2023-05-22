@@ -1,0 +1,5 @@
+service: "clip_api_service:svc"
+include:
+- "clip_api_service/*.py"
+python:
+    requirements_txt: "./requirements.txt"
