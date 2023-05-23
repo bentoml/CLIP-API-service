@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import asyncio
 import typing
-from typing import Optional
 
 import bentoml
 import numpy as np
 from bentoml.io import JSON
+from typing import Optional, List
 
 from clip_api_service.models import init_model
 from clip_api_service.runners import get_clip_runner
@@ -31,17 +31,17 @@ class Item(BaseItem):
 
 
 class ItemList(ListModel):
-    __root__: list[Item]
+    __root__: List[Item]
 
 
 class RankInput(BaseItem):
-    queries: list[Item]
-    candidates: list[Item]
+    queries: List[Item]
+    candidates: List[Item]
 
 
 class RankOutput(BaseItem):
-    probabilities: list[list[float]]
-    cosine_similarities: list[list[float]]
+    probabilities: List[List[float]]
+    cosine_similarities: List[List[float]]
 
 
 bento_model = init_model()
@@ -71,7 +71,7 @@ async def _encode(item: Item) -> npt.NDArray:
     input=JSON.from_sample(ENCODING_INPUT_SAMPLE, pydantic_model=ItemList),
     output=JSON(),
 )
-async def encode(items: ItemList) -> list[npt.NDArray[float]]:
+async def encode(items: ItemList) -> List[npt.NDArray[float]]:
     results = [_encode(item) for item in items]
     results = await asyncio.gather(*results)
     return results
