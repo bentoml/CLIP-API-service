@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import base64
 import io
-from typing import Any, List
+from typing import Any
 
 import aiohttp
 import numpy as np
@@ -57,7 +57,7 @@ class BaseItem(BaseModel):
 
 
 class ListModel(BaseItem):
-    __root__: List[Any]
+    __root__: list[Any]
 
     def __iter__(self):
         return iter(self.__root__)
