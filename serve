@@ -1,0 +1,3 @@
+#!/bin/bash
+
+bentoml serve clip_api_service.service:svc --working-dir="src"

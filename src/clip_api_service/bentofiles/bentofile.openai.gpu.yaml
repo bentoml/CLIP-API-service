@@ -1,4 +1,4 @@
-service: "clip_api_service:svc"
+service: "clip_api_service.service:svc"
 include:
 - "clip_api_service/*.py"
 python:
