@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import bentoml
-
 from clip_api_service import svc
 
 

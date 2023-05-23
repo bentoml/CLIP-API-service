@@ -1,8 +1,5 @@
 from __future__ import annotations
 
-
-import bentoml
-
 # Chinese CLIP models
 MODELS = {
     "CN-CLIP/ViT-B-16",
@@ -11,3 +8,5 @@ MODELS = {
     "CN-CLIP/ViT-H-14",
     "CN-CLIP/RN50",
 }
+
+raise NotImplementedError("CNCLIP is not implemented yet.")

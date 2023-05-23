@@ -5,7 +5,8 @@ import os
 
 def build_bento(model_name: str | None = None, use_gpu: bool = False):
     import bentoml.bentos
-    from clip_api_service.models import init_model, get_clip_module
+
+    from clip_api_service.models import get_clip_module, init_model
 
     bento_model = init_model(model_name)
     clip_module = get_clip_module(bento_model)

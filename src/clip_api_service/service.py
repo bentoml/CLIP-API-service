@@ -1,22 +1,22 @@
 from __future__ import annotations
 
-import typing
-from typing import Optional, List, Dict
-
-import numpy as np
 import asyncio
-import bentoml
-from bentoml.io import JSON
+import typing
 
-from .runners import get_clip_runner
-from .models import init_model
-from .samples import ENCODING_INPUT_SAMPLE, RANKING_INPUT_SAMPLE
-from .utils import (
-    download_image_from_url,
-    base64_to_image,
-    cosine_similarity,
+import bentoml
+import numpy as np
+from bentoml.io import JSON
+from typing import Optional, List
+
+from clip_api_service.models import init_model
+from clip_api_service.runners import get_clip_runner
+from clip_api_service.samples import ENCODING_INPUT_SAMPLE, RANKING_INPUT_SAMPLE
+from clip_api_service.utils import (
     BaseItem,
     ListModel,
+    base64_to_image,
+    cosine_similarity,
+    download_image_from_url,
     softmax,
 )
 
@@ -25,9 +25,9 @@ if typing.TYPE_CHECKING:
 
 
 class Item(BaseItem):
-    text: Optional[str]  # text to encode
-    img_uri: Optional[str]  # url for downloading image
-    img_blob: Optional[str]  # base64 encoded image
+    text: Optional[str]  # noqa: UP007
+    img_uri: Optional[str]  # noqa: UP007
+    img_blob: Optional[str]  # noqa: UP007
 
 
 class ItemList(ListModel):

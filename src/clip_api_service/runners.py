@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import bentoml
 
-from clip_api_service.models import init_model, get_clip_module
+from clip_api_service.models import get_clip_module, init_model
 
 
 def get_clip_runner(model: str | None | bentoml.Model = None, init_local: bool = False):
@@ -12,7 +12,7 @@ def get_clip_runner(model: str | None | bentoml.Model = None, init_local: bool =
     runner = bentoml.Runner(
         clip_module.clip_runnable(),
         name="clip_model_runner",
-        runnable_init_params=dict(bento_model=bento_model),
+        runnable_init_params={"bento_model": bento_model},
         models=[bento_model],
     )
 

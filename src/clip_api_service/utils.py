@@ -1,14 +1,13 @@
 from __future__ import annotations
 
-import io
 import base64
+import io
 from typing import Any, List
 
 import aiohttp
 import numpy as np
-from PIL import Image
-from numpy.linalg import norm
 from bentoml.exceptions import BadInput
+from PIL import Image
 from pydantic import BaseModel
 
 
@@ -30,7 +29,7 @@ async def download_image_from_url(url: str) -> Image.Image:
 
 
 def cosine_similarity(query_embeds, candidates_embeds):
-    # Normalize each embedding to a unit vector (this is important for cosine similarity calculation)
+    # Normalize each embedding to a unit vector
     query_embeds /= np.linalg.norm(query_embeds, axis=1, keepdims=True)
     candidates_embeds /= np.linalg.norm(candidates_embeds, axis=1, keepdims=True)
 

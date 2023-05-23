@@ -1,8 +1,6 @@
 from __future__ import annotations
 
 import typing
-from typing import List
-from contextlib import ExitStack, contextmanager
 
 import bentoml
 import torch
@@ -153,14 +151,14 @@ class OpenClipRunnable(CLIPRunnable):
         self.tokenizer = bento_model.custom_objects["tokenizer"]
 
     @bentoml.Runnable.method(batchable=True)
-    def encode_text(self, texts: List[str]) -> npt.NDArray:
+    def encode_text(self, texts: list[str]) -> npt.NDArray:
         texts_encodings = self.tokenizer(texts)
         with torch.inference_mode():
             text_embeddings = self.model.encode_text(texts_encodings)
             return text_embeddings.cpu().detach().numpy()
 
     @bentoml.Runnable.method(batchable=True)
-    def encode_image(self, images: List[Image.Image]) -> npt.NDArray:
+    def encode_image(self, images: list[Image.Image]) -> npt.NDArray:
         image_encodings = torch.stack([self.processor(image) for image in images])
         with torch.inference_mode():
             image_embeddings = self.model.encode_image(image_encodings)

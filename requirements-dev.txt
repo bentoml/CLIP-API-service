@@ -1,7 +1,8 @@
-transformers
 bentoml
+transformers
 accelerate
 optimum
 pydantic
 Pillow
-pytorch
+open_clip_torch
+torch

@@ -1,9 +1,5 @@
 from __future__ import annotations
 
-
-import bentoml
-
-
 # Multi-lingual CLIP models
 MODELS = {
     "M-CLIP/XLM-Roberta-Large-Vit-B-16Plus",
@@ -12,3 +8,5 @@ MODELS = {
     "M-CLIP/XLM-Roberta-Large-Vit-B-32",
     "M-CLIP/XLM-Roberta-Large-Vit-L-14",
 }
+
+raise NotImplementedError("MCCLIP is not implemented yet.")

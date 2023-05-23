@@ -1,19 +1,19 @@
 from __future__ import annotations
 
+import importlib
 import logging
 import os
-import importlib
 import typing
 from typing import Protocol, cast
 
-from PIL import Image
-
 import bentoml
 from bentoml.exceptions import NotFound
+from PIL import Image
 
 if typing.TYPE_CHECKING:
+    from typing import Any
+
     import numpy.typing as npt
-    from typing import Any, Dict, List, Set
 
 MODEL_ENV_VAR_KEY = "CLIP_MODEL"
 DEFAULT_MODEL_NAME = "openai/clip-vit-large-patch14"
@@ -31,10 +31,10 @@ class CLIPRunnable(bentoml.Runnable):
     def __init__(self, bento_model: bentoml.Model):
         ...
 
-    def encode_text(self, texts: List[str]) -> npt.NDArray:
+    def encode_text(self, texts: list[str]) -> npt.NDArray:
         ...
 
-    def encode_image(self, images: List[Image.Image]) -> npt.NDArray:
+    def encode_image(self, images: list[Image.Image]) -> npt.NDArray:
         ...
 
 
@@ -47,10 +47,10 @@ class CLIPModule(Protocol):
     implements the actual CLIP encoding logic for serving with BentoML.
     """
 
-    MODELS: Set[str]
+    MODELS: set[str]
 
     def download_model(
-        self, model_name: str, model: Any, custom_objects: Dict[str, Any]
+        self, model_name: str, model: Any, custom_objects: dict[str, Any]
     ) -> bentoml.Model:
         ...
 
@@ -67,7 +67,7 @@ class CLIPModule(Protocol):
 
 class CLIPModuleRegistry:
     def __init__(self):
-        self._modules: List[CLIPModule] = []
+        self._modules: list[CLIPModule] = []
         self._register_default_clip_modules()
 
     def register(self, module: str | CLIPModule) -> None:
@@ -77,15 +77,10 @@ class CLIPModuleRegistry:
             self._modules.append(module)
 
     def _register_default_clip_modules(self):
-        from clip_api_service.models import openai
-        from clip_api_service.models import openclip
-
-        # from clip_api_service.models import cclip
-        # from clip_api_service.models import mclip
+        from clip_api_service.models import openai, openclip  # cclip, mclip
 
         self.register(cast(CLIPModule, openai))
         self.register(cast(CLIPModule, openclip))
-
         # self.register(cast(CLIPModule, cclip))
         # self.register(cast(CLIPModule, mclip))
 
@@ -100,7 +95,7 @@ def save_model(
     model_name: str,
     clip_module: str,
     model: Any,
-    custom_objects: Dict[str, Any],
+    custom_objects: dict[str, Any],
 ) -> bentoml.Model:
     """
     Save a CLIP model to BentoML format. A clip_module must be specified to indicate
@@ -158,7 +153,7 @@ def get_clip_module(bento_model: bentoml.Model) -> CLIPModule:
     return clip_module
 
 
-def list_models() -> List[str]:
+def list_models() -> list[str]:
     models = []
     for clip_module in CLIP_MODULES:
         models.extend(clip_module.MODELS)

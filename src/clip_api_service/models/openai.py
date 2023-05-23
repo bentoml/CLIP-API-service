@@ -4,10 +4,10 @@ import typing
 
 import bentoml
 from PIL import Image
-from . import CLIPRunnable
+
+from clip_api_service.models import CLIPRunnable
 
 if typing.TYPE_CHECKING:
-    from typing import List
     import numpy.typing as npt
 
 MODELS = {
@@ -61,7 +61,7 @@ class OpenAICLIPRunnable(CLIPRunnable):
         self.processor = bento_model.custom_objects["processor"]
 
     @bentoml.Runnable.method(batchable=True)
-    def encode_text(self, texts: List[str]) -> npt.NDArray:
+    def encode_text(self, texts: list[str]) -> npt.NDArray:
         inputs = self.processor(text=texts, return_tensors="pt", padding=True).to(
             self.device
         )
@@ -69,7 +69,7 @@ class OpenAICLIPRunnable(CLIPRunnable):
         return text_embeddings.cpu().detach().numpy()
 
     @bentoml.Runnable.method(batchable=True)
-    def encode_image(self, images: List[Image.Image]) -> npt.NDArray:
+    def encode_image(self, images: list[Image.Image]) -> npt.NDArray:
         inputs = self.processor(images=images, return_tensors="pt", padding=True).to(
             self.device
         )
