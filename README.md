@@ -7,16 +7,6 @@
 </div>
 <br>
 
-<style>
-table:nth-of-type(1) {
-    display:table;
-    width:100%;
-}
-table:nth-of-type(1) th:nth-of-type(2) {
-    width:20%;
-}
-</style>
-
 ## 📖 Introduction 📖
 [CLIP](https://openai.com/research/clip), or Contrastive Language-Image Pretraining, is a cutting-edge AI model that comprehends and connects text and images, revolutionizing how we interpret online data.
 
@@ -194,7 +184,7 @@ Arguments:
 * `--model_name` : Name of the CLIP model. Use `list_models` to see the list of available model. Default: `openai/clip-vit-large-patch14`
 
 #### `build`
-Build a Bento with the model of your choice
+Builds a Bento with the model of your choice
 
 Arguments:
 * `--model_name` : Name of the CLIP model. Use `list_models` to see the list of available model. Default: `openai/clip-vit-large-patch14`
