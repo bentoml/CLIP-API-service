@@ -41,9 +41,3 @@ if __name__ == "__main__":
     # server = bentoml.HTTPServer(svc)
     # server.start(blocking=False)
     test()
-
-#%%
-from clip_api_service.build import build_bento
-# %%
-build_bento(model_name="ViT-B-32:openai")
-# %%
