@@ -47,7 +47,7 @@ dependencies = [
 "Bug Tracker" = "https://github.com/bentoml/CLIP-API-service/issues"
 
 [project.scripts]
-clip-api-service = "cli:app"
+clip-api-service = "clip_api_service.cli:app"
 
 [tool.pdm.dev-dependencies]
 test = [
