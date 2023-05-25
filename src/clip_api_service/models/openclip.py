@@ -102,6 +102,7 @@ MODELS = {
 }
 
 
+
 def get_bento_model_tag(model_name: str) -> bentoml.Tag:
     model_version = model_name.replace(":", ".")
     return bentoml.Tag("openclip", model_version.lower())
@@ -131,6 +132,16 @@ def download_model(model_name: str) -> bentoml.Model:
     )
     return bentoml.models.get(bento_model_tag)
 
+def bentofile_path(use_gpu: bool = False) -> str:
+    import os
+    build_ctx = os.path.dirname(os.path.dirname(__file__))
+
+    declaration = {
+        False: os.path.join(build_ctx, "bentofiles", "bentofile.openclip.cpu.yaml"),
+        True: os.path.join(build_ctx, "bentofiles", "bentofile.openclip.gpu.yaml"),
+    }
+
+    return declaration[use_gpu]
 
 class OpenClipRunnable(CLIPRunnable):
     SUPPORTED_RESOURCES = ("nvidia.com/gpu", "cpu")

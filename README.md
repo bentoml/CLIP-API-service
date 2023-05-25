@@ -16,13 +16,13 @@ This library provides you with an instant, easy-to-use interface for CLIP, allow
 Ensure that you have Python 3.8 or newer and `pip` installed on your system. We highly recommend using a Virtual Environment to avoid any potential package conflicts.
 
 To install the service, enter the following command:
-```
+```bash
 pip install clip-api-service
 ```
 
 Once the installation process is complete, you can start the service by running:
-```
-clip-api-service serve --model_name=ViT-B-32:openai
+```bash
+clip-api-service serve --model-name=ViT-B-32:openai
 ```
 Your service is now running! Interact with it via the Swagger UI at `localhost:3000`
 ![SwaggerUI](images/swagger-ui.png)
@@ -67,7 +67,7 @@ bentoml yatai login --api-token <your-api-token> --endpoint <bento-cloud-endpoin
 Next, build your BentoML service using the `build` command:
 
 ```bash
-clip-api-service build --model_name=ViT-B-32:openai
+clip-api-service build --model-name=ViT-B-32:openai
 ```
 
 Lastly, push your freshly-built Bento service to BentoCloud using the `push` command:
@@ -181,13 +181,13 @@ And the response looks like:
 Spins up a HTTP Server with the model of your choice.
 
 Arguments:
-* `--model_name` : Name of the CLIP model. Use `list_models` to see the list of available model. Default: `openai/clip-vit-large-patch14`
+* `--model-name` : Name of the CLIP model. Use `list_models` to see the list of available model. Default: `openai/clip-vit-large-patch14`
 
 #### `build`
 Builds a Bento with the model of your choice
 
 Arguments:
-* `--model_name` : Name of the CLIP model. Use `list_models` to see the list of available model. Default: `openai/clip-vit-large-patch14`
+* `--model-name` : Name of the CLIP model. Use `list_models` to see the list of available model. Default: `openai/clip-vit-large-patch14`
 
 #### `list_models`
 List all available CLIP models.

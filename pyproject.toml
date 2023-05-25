@@ -31,13 +31,23 @@ keywords = [
 ]
 dependencies = [
     "bentoml>=1.0.20",
+    "bentoml",
+    "transformers",
+    "accelerate",
+    "optimum",
+    "pydantic",
+    "Pillow",
+    "open-clip-torch",
+    "torch",
+    "typer",
 ]
 
 [project.urls]
 "Homepage" = "https://github.com/bentoml/CLIP-API-service"
 "Bug Tracker" = "https://github.com/bentoml/CLIP-API-service/issues"
 
-
+[project.scripts]
+clip-api-service = "cli:app"
 
 [tool.pdm.dev-dependencies]
 test = [

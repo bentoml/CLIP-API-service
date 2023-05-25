@@ -2,4 +2,10 @@ service: "clip_api_service.service:svc"
 include:
 - "clip_api_service/*.py"
 python:
-    requirements_txt: "./requirements.txt"
+    packages:
+    - bentoml
+    - transformers
+    - accelerate
+    - optimum
+    - pydantic
+    - Pillow
