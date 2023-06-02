@@ -50,7 +50,7 @@ Harness the capabilities of the CLIP API service across a range of applications:
 | Counting Objects | ![Three Dog](images/three-dog.jpg) | This is a picture of 1 dog<br>This is a picture of 2 dogs<br>This is a picture of 3 dogs | Image matched with "3 dogs" |
 | Identifying Colors | ![Blue Car](images/bluecar.jpeg)  | The car is red<br>The car is blue<br>The car is green | Image matched with "blue car" |
 | Understanding Motion | ![Parked Car](images/parkedcar.jpeg)  | The car is parked<br>The car is moving<br>The car is turning| Image matched with "parked car" |
-| Recognizing Location | ![Suburb Car](images/car-suburb.jpeg)  | The car is in the suburb<br>The car is on the highway| Image matched with "car in the street" |
+| Recognizing Location | ![Suburb Car](images/car-suburb.jpeg)  | The car is in the suburb<br>The car is on the highway<br>The car is in the street| Image matched with "car in the street" |
 | Relative Positioning | ![Big Small car](images/big-small-car.jpg) | The big car is on the left, the small car is on the right<br>The small car is on the left, the big car is on the right| Image matched with the provided description |
  
 
