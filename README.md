@@ -60,7 +60,7 @@ Effortlessly transition your project into a production-ready application using [
 Start by creating a BentoCloud account. Once you've signed up, log in to your BentoCloud account using the command:
 
 ```bash
-bentoml yatai login --api-token <your-api-token> --endpoint <bento-cloud-endpoint>
+bentoml cloud login --api-token <your-api-token> --endpoint <bento-cloud-endpoint>
 ```
 > Note: Replace `<your-api-token>` and `<bento-cloud-endpoint>` with your specific API token and the BentoCloud endpoint respectively.
 
@@ -70,12 +70,13 @@ Next, build your BentoML service using the `build` command:
 clip-api-service build --model-name=ViT-B-32:openai
 ```
 
-Lastly, push your freshly-built Bento service to BentoCloud using the `push` command:
+Then, push your freshly-built Bento service to BentoCloud using the `push` command:
 
 ```bash
 bentoml push <name:version>
 ```
 
+Lastly, deploy this application to BentoCloud with a single `bentoml deployment create` command following the [deployment instructions](https://docs.bentoml.org/en/latest/reference/cli.html#bentoml-deployment-create).
 
 BentoML offers a number of options for deploying and hosting online ML services into production, learn more at [Deploying a Bento](https://docs.bentoml.org/en/latest/concepts/deploy.html).
 
