@@ -4,7 +4,7 @@ build-backend = "pdm.backend"
 
 [project]
 name = "CLIP-API-service"
-version = "0.1.0"
+version = "0.1.1"
 authors = [
   { name="BentoML Authors", email="contact@bentoml.com" },
 ]
