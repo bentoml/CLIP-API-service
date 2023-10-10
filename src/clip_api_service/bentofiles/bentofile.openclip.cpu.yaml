@@ -1,6 +1,7 @@
 service: "clip_api_service.service:svc"
 include:
 - "clip_api_service/*.py"
+- "clip_api_service/models/*.py"
 python:
     packages:
     - bentoml
