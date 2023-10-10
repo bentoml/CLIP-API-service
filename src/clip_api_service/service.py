@@ -25,9 +25,9 @@ if typing.TYPE_CHECKING:
 
 
 class Item(BaseItem):
-    text: Optional[str]  # noqa: UP007
-    img_uri: Optional[str]  # noqa: UP007
-    img_blob: Optional[str]  # noqa: UP007
+    text: Optional[str] = None 
+    img_uri: Optional[str] = None  
+    img_blob: Optional[str] = None 
 
 
 class ItemList(ListModel):
