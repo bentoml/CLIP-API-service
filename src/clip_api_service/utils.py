@@ -8,7 +8,7 @@ import aiohttp
 import numpy as np
 from bentoml.exceptions import BadInput
 from PIL import Image
-from pydantic import BaseModel
+from pydantic import BaseModel, RootModel
 
 
 def base64_to_image(base64_string: str) -> Image:
@@ -56,14 +56,14 @@ class BaseItem(BaseModel):
         return super().dict(*args, exclude_none=True, **kwargs)
 
 
-class ListModel(BaseItem):
-    __root__: List[Any]
+class ListModel(RootModel):
+    root: List[Any]
 
     def __iter__(self):
-        return iter(self.__root__)
+        return iter(self.root)
 
     def __getitem__(self, item):
-        return self.__root__[item]
+        return self.root[item]
 
     def append(self, item):
-        return self.__root__.append(item)
+        return self.root.append(item)

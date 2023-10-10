@@ -31,7 +31,7 @@ class Item(BaseItem):
 
 
 class ItemList(ListModel):
-    __root__: List[Item]
+    root: List[Item]
 
 
 class RankInput(BaseItem):
@@ -42,7 +42,6 @@ class RankInput(BaseItem):
 class RankOutput(BaseItem):
     probabilities: List[List[float]]
     cosine_similarities: List[List[float]]
-
 
 bento_model = init_model()
 logit_scale = np.exp(bento_model.info.metadata.get("logit_scale", 4.60517))
