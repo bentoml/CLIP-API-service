@@ -1,6 +1,6 @@
 import pprint
 
-from clip_api_service.service import svc
+from clip_api_service._service import svc
 
 input_sample = {
     "queries": [
@@ -28,7 +28,7 @@ input_sample = {
 def test():
     import asyncio
 
-    from clip_api_service.service import RankInput
+    from clip_api_service._service import RankInput
 
     rank_input = RankInput.parse_obj(input_sample)
 

@@ -43,7 +43,7 @@ class RankOutput(BaseItem):
     probabilities: List[List[float]]
     cosine_similarities: List[List[float]]
 
-bento_model = init_model()
+bento_model = init_model("__model_name__")
 logit_scale = np.exp(bento_model.info.metadata.get("logit_scale", 4.60517))
 
 clip_runner = get_clip_runner(bento_model)

@@ -38,7 +38,7 @@ dependencies = [
     "pydantic",
     "Pillow",
     "open-clip-torch",
-    "torch",
+    "torch==2.0.0",
     "typer",
 ]
 

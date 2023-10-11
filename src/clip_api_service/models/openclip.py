@@ -165,14 +165,14 @@ class OpenClipRunnable(CLIPRunnable):
     def encode_text(self, texts: list[str]) -> npt.NDArray:
         texts_encodings = self.tokenizer(texts)
         with torch.inference_mode():
-            text_embeddings = self.model.encode_text(texts_encodings)
+            text_embeddings = self.model.encode_text(texts_encodings.to(self.device))
             return text_embeddings.cpu().detach().numpy()
 
     @bentoml.Runnable.method(batchable=True)
     def encode_image(self, images: list[Image.Image]) -> npt.NDArray:
         image_encodings = torch.stack([self.processor(image) for image in images])
         with torch.inference_mode():
-            image_embeddings = self.model.encode_image(image_encodings)
+            image_embeddings = self.model.encode_image(image_encodings.to(self.device))
             return image_embeddings.cpu().detach().numpy()
 
 
