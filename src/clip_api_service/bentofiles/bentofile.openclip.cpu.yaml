@@ -10,3 +10,4 @@ python:
     - optimum
     - pydantic
     - Pillow
+    - open-clip-torch
