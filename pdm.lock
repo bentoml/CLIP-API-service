@@ -6,7 +6,7 @@ groups = ["default", "test"]
 cross_platform = true
 static_urls = false
 lock_version = "4.3"
-content_hash = "sha256:7d6e1adc4c19e626d1473b5d9fc22dd1eb9de9fdb25f87511c53d3ccba5ee490"
+content_hash = "sha256:dd43274307789aa4e3c2e4810add04d05b6bf8310570b9ffe35e52a42331d561"
 
 [[package]]
 name = "accelerate"

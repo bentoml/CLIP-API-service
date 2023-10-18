@@ -3,12 +3,15 @@ from __future__ import annotations
 import asyncio
 import typing
 
+import os
+
+
 import bentoml
 import numpy as np
 from bentoml.io import JSON
 from typing import Optional, List
 
-from clip_api_service.models import init_model
+from clip_api_service.models import init_model, DEFAULT_MODEL_NAME, MODEL_ENV_VAR_KEY
 from clip_api_service.runners import get_clip_runner
 from clip_api_service.samples import ENCODING_INPUT_SAMPLE, RANKING_INPUT_SAMPLE
 from clip_api_service.utils import (
@@ -43,7 +46,9 @@ class RankOutput(BaseItem):
     probabilities: List[List[float]]
     cosine_similarities: List[List[float]]
 
-bento_model = init_model("__model_name__")
+model_name = os.environ.get(MODEL_ENV_VAR_KEY, "__model_name__")
+bento_model = init_model(model_name)
+
 logit_scale = np.exp(bento_model.info.metadata.get("logit_scale", 4.60517))
 
 clip_runner = get_clip_runner(bento_model)

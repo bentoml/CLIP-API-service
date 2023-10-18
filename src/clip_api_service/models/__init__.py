@@ -122,13 +122,11 @@ def save_model(
     )
 
 
-def init_model(model_name: str | None = None) -> bentoml.Model:
+def init_model(model_name: str = DEFAULT_MODEL_NAME) -> bentoml.Model:
     """
     Initialize a CLIP model from BentoML format. The model_name must be specified to
     support multiple models in a single BentoML bundle.
-    """
-    if model_name is None:
-        model_name = os.environ.get(MODEL_ENV_VAR_KEY, DEFAULT_MODEL_NAME)
+    """       
 
     for clip_module in CLIP_MODULES:
         if model_name in clip_module.MODELS:

@@ -14,7 +14,7 @@ def serve(model_name: Annotated[str, typer.Option(help="CLIP Model name")] = DEF
     env[MODEL_ENV_VAR_KEY] = model_name
 
     try:
-        subprocess.run(["bentoml", "serve", "clip_api_service.service:svc"], env=env, check=True)
+        subprocess.run(["bentoml", "serve", "clip_api_service._service:svc"], env=env, check=True)
     except subprocess.CalledProcessError as e:
         typer.echo(f"Command 'bentoml serve {model_name}' failed with error code {e.returncode}")
 
