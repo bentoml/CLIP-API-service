@@ -20,12 +20,16 @@ To install the service, enter the following command:
 pip install clip-api-service
 ```
 
+## 🏃 Quick start 🏃
+
 Once the installation process is complete, you can start the service by running:
 ```bash
 clip-api-service serve --model-name=ViT-B-32:openai
 ```
 Your service is now running! Interact with it via the Swagger UI at `localhost:3000`
 ![SwaggerUI](images/swagger-ui.png)
+
+Or try this tutorial in Google Colab: [CLIP demo](https://colab.research.google.com/github/bentoml/CLIP-API-service/blob/main/example/clip_demo.ipynb).
 
 ## 🎯 Use cases 🎯
 Harness the capabilities of the CLIP API service across a range of applications:
