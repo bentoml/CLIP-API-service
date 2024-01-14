@@ -1,6 +1,9 @@
 FROM python:3.11-slim
 LABEL authors="sushka0 <barabum@duck.com>, BentoML Authors <contact@bentoml.com>"
 
+RUN apt update -y
+RUN apt-get install gcc python3-dev -y
+
 COPY . .
 
 RUN pip install .
