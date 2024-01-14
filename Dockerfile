@@ -8,6 +8,6 @@ COPY . .
 
 RUN pip install .
 
-ENV MODEL_NAME="ViT-B-32:openai"
+ENV MODEL_NAME=ViT-B-16:openai
 
-ENTRYPOINT ["clip-as-service", "serve", "--model-name=${MODEL_NAME}"]
+ENTRYPOINT clip-api-service serve --model-name=${MODEL_NAME}
