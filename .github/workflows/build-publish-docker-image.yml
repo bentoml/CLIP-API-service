@@ -31,7 +31,7 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/clip-as-service:latest
-            ghcr.io/${{ github.repository_owner }}/clip-as-service:${{ github.sha }}
+            ghcr.io/${{ github.repository_owner }}/clip-api-service:latest
+            ghcr.io/${{ github.repository_owner }}/clip-api-service:${{ github.sha }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
