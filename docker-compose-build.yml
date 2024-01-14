@@ -1,0 +1,11 @@
+version: 'v1'
+
+services:
+  clip-api:
+    build:
+      .
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    environment:
+      - MODEL_NAME=ViT-B-32:openai
