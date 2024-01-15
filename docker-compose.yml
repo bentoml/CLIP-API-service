@@ -1,0 +1,10 @@
+version: 'v1'
+
+services:
+  clip-api:
+    image: ghcr.io/bentoml/clip-api-service:latest
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    environment:
+      - MODEL_NAME=ViT-B-32:openai
