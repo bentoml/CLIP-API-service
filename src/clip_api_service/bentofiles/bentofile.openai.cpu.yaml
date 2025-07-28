@@ -4,10 +4,11 @@ include:
 - "clip_api_service/models/*.py"
 python:
     packages:
-    - bentoml
+    - bentoml==1.1.6
     - transformers
     - accelerate
     - optimum
     - pydantic
     - Pillow
     - open-clip-torch
+    - torch==2.0.0
