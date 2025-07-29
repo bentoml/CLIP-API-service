@@ -7,6 +7,9 @@
 </div>
 <br>
 
+> [!CAUTION]
+> This repo is deprecated and won't receive updates in the future. Please go to [BentoCLIP](https://github.com/bentoml/BentoCLIP) for the latest usage.
+
 ## 📖 Introduction 📖
 [CLIP](https://openai.com/research/clip), or Contrastive Language-Image Pretraining, is a cutting-edge AI model that comprehends and connects text and images, revolutionizing how we interpret online data.
 
