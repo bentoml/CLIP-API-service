@@ -34,6 +34,24 @@ Your service is now running! Interact with it via the Swagger UI at `localhost:3
 
 Or try this tutorial in Google Colab: [CLIP demo](https://colab.research.google.com/github/bentoml/CLIP-API-service/blob/main/example/clip_demo.ipynb).
 
+## 🐳 Start using Docker Compose 🐳
+Also, you can start your CLIP-API using docker-compose by running these commands one-by-one:
+```bash
+git clone https://github.com/bentoml/CLIP-API-service
+cd CLIP-API-service
+docker compose -f docker-compose-build.yml up -d  # or docker-compose ...
+```
+
+Your service is now running! Interact with it via the Swagger UI at `localhost:3000`
+
+_You can set another CLIP model inside `docker-compose-build.yml` file:_
+```yaml
+...
+    environment:
+      - MODEL_NAME=ViT-B-32:openai
+...
+```
+
 ## 🎯 Use cases 🎯
 Harness the capabilities of the CLIP API service across a range of applications:
 
